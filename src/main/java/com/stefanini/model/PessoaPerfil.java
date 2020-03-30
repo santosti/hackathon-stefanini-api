@@ -4,28 +4,29 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tb_pessoa_perfil")
+@Table(name = "TB_PESSOA_PERFIL")
 public class PessoaPerfil implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-
-    @Id
-    @Column(name = "co_seq_pessoal_perfil")
+	@Id
+    @Column(name = "CO_SEQ_PESSOA_PERFIL")
     private Long id;
 
-    @Column(name = "co_seq_perfil",insertable = false,updatable = false)
+    @Column(name = "CO_SEQ_PERFIL",insertable = false,updatable = false)
     private Long idPerfil;
-    @Column(name = "co_seq_pessoa",insertable = false,updatable = false)
+    
+    @Column(name = "CO_SEQ_PESSOA",insertable = false,updatable = false)
     private Long idPessoa;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "co_seq_perfil", referencedColumnName = "co_seq_perfil", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "CO_SEQ_PERFIL", referencedColumnName = "CO_SEQ_PERFIL", nullable = false)
     private Perfil perfil;
+    
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "co_seq_pessoa", referencedColumnName = "co_seq_pessoa", nullable = false)
+    @JoinColumn(name = "CO_SEQ_PESSOA", referencedColumnName = "CO_SEQ_PESSOA", nullable = false)
     private Pessoa pessoa;
 
     public PessoaPerfil() {
-		// TODO Auto-generated constructor stub
 	}
 
     public PessoaPerfil(Perfil perfil, Pessoa pessoa) {

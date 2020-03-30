@@ -15,15 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @author joaopedromilhome
@@ -31,12 +25,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "TB_PESSOA")
-public class Pessoa implements Serializable{
-
-	
-	/**
-	 * Serializacao da Classe
-	 */
+public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
 	 * ID da Tabela
@@ -51,7 +40,7 @@ public class Pessoa implements Serializable{
 	@NotNull
 	@Column(name = "NO_NOME")
 	private String nome;
-	
+
 	/**
 	 * Email da Pessoa
 	 */
@@ -59,11 +48,11 @@ public class Pessoa implements Serializable{
 	@Column(name = "DS_EMAIL")
 	private String email;
 	/**
-	 * Data de Nascimento 
+	 * Data de Nascimento
 	 */
 	@NotNull
 	@Column(name = "DT_NASCIMENTO")
-	private LocalDate dataNascimento; 
+	private LocalDate dataNascimento;
 	/**
 	 * Situacao da Pessoa
 	 */
@@ -74,27 +63,35 @@ public class Pessoa implements Serializable{
 	/**
 	 * Mapeamento de Enderecos Unidirecional
 	 */
-	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinColumn(name = "CO_SEQ_PESSOA",referencedColumnName = "CO_SEQ_PESSOA")
-	private Set<Endereco> enderecos = new HashSet<>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "CO_SEQ_PESSOA", referencedColumnName = "CO_SEQ_PESSOA")
+	private Set<Endereco> enderecos = new HashSet<Endereco>();
 
 	/**
 	 * Mapeamento de Perfis Unidirecional
 	 */
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinTable(
-			name = "TB_PESSOA_PERFIL",
-			joinColumns = {@JoinColumn(name = "CO_SEQ_PESSOA")},
-			inverseJoinColumns = {@JoinColumn(name = "CO_SEQ_PERFIL")}
-	)
-	private Set<Perfil> perfils = new HashSet<>();
-	/**
-	 * Metodo construtor da classe
-	 */
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JoinTable(name = "TB_PESSOA_PERFIL", joinColumns = { @JoinColumn(name = "CO_SEQ_PESSOA") }, inverseJoinColumns = { @JoinColumn(name = "CO_SEQ_PERFIL") })
+	private Set<Perfil> perfils = new HashSet<Perfil>();
+
 	public Pessoa() {
 	}
 
+	/**
+	 * Construtor da Classe, Obrigando receber todos os parametros
+	 * 
+	 * @param nome
+	 * @param email
+	 * @param dataNascimento
+	 * @param situacao
+	 */
+	public Pessoa(@NotNull String nome, @NotNull String email, @NotNull LocalDate dataNascimento, @NotNull Boolean situacao) {
+		super();
+		this.nome = nome;
+		this.email = email;
+		this.dataNascimento = dataNascimento;
+		this.situacao = situacao;
+	}
 
 	public Set<Perfil> getPerfils() {
 		return perfils;
@@ -104,22 +101,6 @@ public class Pessoa implements Serializable{
 		this.perfils = perfils;
 	}
 
-	/**
-	 * Construtor da Classe, Obrigando receber todos os parametros
-	 * @param nome
-	 * @param email
-	 * @param dataNascimento
-	 * @param situacao
-	 */
-	public Pessoa(@NotNull String nome, @NotNull String email, @NotNull LocalDate dataNascimento,@NotNull Boolean situacao) {
-		super();
-		this.nome = nome;
-		this.email = email;
-		this.dataNascimento = dataNascimento;
-		this.situacao = situacao;
-	}
-
-
 	public Set<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -127,7 +108,6 @@ public class Pessoa implements Serializable{
 	public void setEnderecos(Set<Endereco> enderecos) {
 		this.enderecos = enderecos;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -152,8 +132,6 @@ public class Pessoa implements Serializable{
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-
-
 
 	public String getEmail() {
 		return email;
@@ -201,13 +179,5 @@ public class Pessoa implements Serializable{
 		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email + ", dataNascimento=" + dataNascimento
 				+ ", situacao=" + situacao + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

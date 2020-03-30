@@ -13,6 +13,7 @@ import java.util.Optional;
 /**
  * 
  * Classe de servico, as regras de negocio devem estar nessa classe
+ * 
  * @author joaopedromilhome
  *
  */
@@ -20,29 +21,25 @@ import java.util.Optional;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class EnderecoServico implements Serializable {
-	
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private EnderecoDao dao;
 
-
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Endereco salvar(@Valid Endereco entity) {
 		return dao.salvar(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-
 	public Endereco atualizar(@Valid Endereco entity) {
 		return dao.atualizar(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-
 	public void remover(Long id) {
-	dao.remover(id);
+		dao.remover(id);
 	}
-
 
 	public Optional<List<Endereco>> getList() {
 		return dao.getList();

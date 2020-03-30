@@ -13,7 +13,6 @@ public class ErroDto implements Serializable {
         this.valor = valor;
     }
 
-
     public String getCampo() {
         return campo;
     }
