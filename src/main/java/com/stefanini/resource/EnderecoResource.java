@@ -39,6 +39,7 @@ public class EnderecoResource {
 		log.info("Obtendo lista de pessoas");
 
 		MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+
 		Optional<List<Endereco>> listPessoa = enderecoServico.getList();
 		return listPessoa.map(enderecos -> Response.ok(enderecos).build())
 				.orElseGet(() -> Response.status(Response.Status.NOT_FOUND).build());

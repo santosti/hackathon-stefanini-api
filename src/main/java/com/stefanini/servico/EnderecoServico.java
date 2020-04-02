@@ -48,4 +48,5 @@ public class EnderecoServico implements Serializable {
 	public Optional<Endereco> encontrar(Long id) {
 		return dao.encontrar(id);
 	}
+
 }

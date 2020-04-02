@@ -60,6 +60,9 @@ public class Pessoa implements Serializable {
 	@Column(name = "ST_PESSOA")
 	private Boolean situacao;
 
+	@Column(name = "DS_CAMINHO_IMAGEM")
+	private String imagem;
+
 	/**
 	 * Mapeamento de Enderecos Unidirecional
 	 */
@@ -71,7 +74,7 @@ public class Pessoa implements Serializable {
 	 * Mapeamento de Perfis Unidirecional
 	 */
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinTable(name = "TB_PESSOA_PERFIL", joinColumns = { @JoinColumn(name = "CO_SEQ_PESSOA") }, inverseJoinColumns = { @JoinColumn(name = "CO_SEQ_PERFIL") })
+	@JoinTable(name = "TB_PESSOA_PERFIL", joinColumns = { @JoinColumn(name = "CO_SEQ_PESSOA") }, inverseJoinColumns = {@JoinColumn(name = "CO_SEQ_PERFIL") })
 	private Set<Perfil> perfils = new HashSet<Perfil>();
 
 	public Pessoa() {
@@ -85,12 +88,14 @@ public class Pessoa implements Serializable {
 	 * @param dataNascimento
 	 * @param situacao
 	 */
-	public Pessoa(@NotNull String nome, @NotNull String email, @NotNull LocalDate dataNascimento, @NotNull Boolean situacao) {
+	public Pessoa(@NotNull String nome, @NotNull String email, @NotNull LocalDate dataNascimento,
+			@NotNull Boolean situacao, String imagem) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.dataNascimento = dataNascimento;
 		this.situacao = situacao;
+		this.imagem = imagem;
 	}
 
 	public Set<Perfil> getPerfils() {
@@ -147,6 +152,14 @@ public class Pessoa implements Serializable {
 
 	public void setSituacao(Boolean situacao) {
 		this.situacao = situacao;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 	@Override
