@@ -68,7 +68,7 @@ public class PessoaServico implements Serializable {
 
 			pessoa.getEnderecos().clear();
 
-		//	pessoa.setImagem(decodeToImage(pessoa.getImagem(), pessoa.getEmail()));
+			// pessoa.setImagem(decodeToImage(pessoa.getImagem(), pessoa.getEmail()));
 
 			Pessoa salvarPessoa = dao.salvar(pessoa);
 			Long id = salvarPessoa.getId();
@@ -86,7 +86,7 @@ public class PessoaServico implements Serializable {
 	public Boolean validarPessoa(@Valid Pessoa pessoa) {
 		if (pessoa.getId() != null) {
 			Optional<Pessoa> encontrar = dao.encontrar(pessoa.getId());
-			
+
 			if (encontrar.get().getEmail().equals(pessoa.getEmail())) {
 				return Boolean.TRUE;
 			}
@@ -116,6 +116,11 @@ public class PessoaServico implements Serializable {
 		return dao.getList();
 	}
 
+	// Buscar uma Pessoa pelo ID
+	public Optional<Pessoa> encontrar(Long id) {
+		return dao.encontrar(id);
+	}
+
 	public List<Pessoa> obterPessoaComRelacionamentos() {
 		return dao.obterPessoaComRelacionamentos();
 	}
@@ -123,7 +128,7 @@ public class PessoaServico implements Serializable {
 	public List<Pessoa> listarPessoasPaginado(Integer pageNumber, Integer pageSize) {
 		return dao.listarPessoasPaginado(pageNumber, pageSize);
 	}
-	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Pessoa atualizarCaminhoImagemPessoa(Long id, String caminhoImagem) {
 		Pessoa pessoa = dao.encontrar(id).get();
@@ -131,50 +136,34 @@ public class PessoaServico implements Serializable {
 		return dao.atualizar(pessoa);
 	}
 
-	// Buscar uma Pessoa pelo ID
-	// @Override
-	public Optional<Pessoa> encontrar(Long id) {
-		return dao.encontrar(id);
-	}
-
-/*	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public FileInputStream urlImg(String localImg) {
-		String localImg1 = "";
-
-		FileInputStream file = null;
-
-		try {
-			file = new FileInputStream(localImg1);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return file;
-	}
-
-	// Decodifica a imagem
-	public String decodeToImage(String imagemString, String email) {
-
-		String url = "C:\\projetos-java\\hackaton-stefanini-api\\src\\imagem\\foto" + email + ".jpg";
-
-		imagemString = imagemString.split(",")[1];
-		BufferedImage imagem = null;
-
-		byte[] imageByte;
-
-		try {
-			imageByte = Base64.getDecoder().decode(imagemString.getBytes());
-			ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-
-			imagem = ImageIO.read(bis);
-			bis.close();
-
-			ImageIO.write(imagem, "JPG", new File(url));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return url;
-	} */
+	/*
+	 * @TransactionAttribute(TransactionAttributeType.REQUIRED) public
+	 * FileInputStream urlImg(String localImg) { String localImg1 = "";
+	 * 
+	 * FileInputStream file = null;
+	 * 
+	 * try { file = new FileInputStream(localImg1);
+	 * 
+	 * } catch (FileNotFoundException e) { e.printStackTrace(); } return file; }
+	 * 
+	 * // Decodifica a imagem public String decodeToImage(String imagemString,
+	 * String email) {
+	 * 
+	 * String url = "C:\\projetos-java\\hackaton-stefanini-api\\src\\imagem\\foto" +
+	 * email + ".jpg";
+	 * 
+	 * imagemString = imagemString.split(",")[1]; BufferedImage imagem = null;
+	 * 
+	 * byte[] imageByte;
+	 * 
+	 * try { imageByte = Base64.getDecoder().decode(imagemString.getBytes());
+	 * ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+	 * 
+	 * imagem = ImageIO.read(bis); bis.close();
+	 * 
+	 * ImageIO.write(imagem, "JPG", new File(url));
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } return url; }
+	 */
 
 }

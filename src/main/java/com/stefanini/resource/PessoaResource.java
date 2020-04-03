@@ -36,12 +36,13 @@ public class PessoaResource {
 	/**
 	 * Classe de servico da Pessoa
 	 */
+
 	@Inject
 	private PessoaServico pessoaServico;
-	
+
 	@Inject
 	private PerfilServico perfilServico;
-	
+
 	@Context
 	private UriInfo uriInfo;
 
@@ -63,9 +64,9 @@ public class PessoaResource {
 	/*
 	 * @GET public Response obterPessoas() { log.info("Obtendo lista de pessoas");
 	 * MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-	 * Optional<List<Pessoa>> listPessoa = pessoaServico.getList(); return
-	 * listPessoa.map(pessoas -> Response.ok(pessoas).build()) .orElseGet(() ->
-	 * Response.status(Status.NOT_FOUND).build()); }
+	 * Optional<List<Pessoa>> listPessoa = pessoaServico.getList(); 
+	 * return listPessoa.map(pessoas -> Response.ok(pessoas).build()) .orElseGet(() -> Response.status(Status.NOT_FOUND).build()); 
+	 * }
 	 */
 
 	/**
@@ -75,8 +76,8 @@ public class PessoaResource {
 	 */
 	@POST
 	public Response adicionarPessoa(@Valid Pessoa pessoa) {
-		
-		if(pessoa.getPerfils() == null) {
+
+		if (pessoa.getPerfils() == null) {
 			Perfil perfil = (Perfil) perfilServico.getList().get();
 		}
 
@@ -84,7 +85,8 @@ public class PessoaResource {
 
 			return Response.ok(pessoaServico.salvar(pessoa)).build();
 		}
-		return Response.status(Status.METHOD_NOT_ALLOWED).entity(new ErroDto("email", "email já existe", pessoa.getEmail())).build();
+		return Response.status(Status.METHOD_NOT_ALLOWED)
+				.entity(new ErroDto("email", "email já existe", pessoa.getEmail())).build();
 	}
 
 	/**
@@ -97,7 +99,8 @@ public class PessoaResource {
 		if (pessoaServico.validarPessoa(pessoa)) {
 			return Response.ok(pessoaServico.atualizar(pessoa)).build();
 		}
-		return Response.status(Status.METHOD_NOT_ALLOWED).entity(new ErroDto("email", "email já existe", pessoa.getEmail())).build();
+		return Response.status(Status.METHOD_NOT_ALLOWED)
+				.entity(new ErroDto("email", "email já existe", pessoa.getEmail())).build();
 	}
 
 	/**
@@ -117,7 +120,8 @@ public class PessoaResource {
 				return Response.status(Response.Status.NOT_FOUND).build();
 			}
 		} catch (NegocioException e) {
-			return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ErroDto(null, e.getMensagem(), id)).build();
+			return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ErroDto(null, e.getMensagem(), id))
+					.build();
 		}
 	}
 
@@ -132,10 +136,13 @@ public class PessoaResource {
 		return pessoaServico.encontrar(id).map(pessoas -> Response.ok(pessoas).build()).orElseGet(() -> Response.status(Status.NOT_FOUND).build());
 	}
 
-/*	@GET
-	@Path("imagem/{localImg}")
-	@Produces("imagem/jpg")
-	public Response obterImagem(@PathParam("localImg") String localImg) {
-		return Response.ok(pessoaServico.urlImg(localImg)).build();
-	} */
+	/*
+	 * @GET
+	 * 
+	 * @Path("imagem/{localImg}")
+	 * 
+	 * @Produces("imagem/jpg") public Response obterImagem(@PathParam("localImg")
+	 * String localImg) { return
+	 * Response.ok(pessoaServico.urlImg(localImg)).build(); }
+	 */
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -30,7 +29,6 @@ public class PessoaUploadImagemResource {
 
 	@POST
 	@Path("upload")
-	@Consumes("multipart/form-data")
 	public Response uploadFile(@PathParam("id") Long id, MultipartFormDataInput input) {
 
 		try {
