@@ -3,7 +3,9 @@ package com.stefanini.dto;
 import java.io.Serializable;
 
 public class ErroDto implements Serializable {
-    private final String campo;
+	private static final long serialVersionUID = 1L;
+	
+	private final String campo;
     private final String mensagem;
     private final Object valor;
 

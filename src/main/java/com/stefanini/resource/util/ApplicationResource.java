@@ -12,6 +12,10 @@ import com.stefanini.resource.PerfilResource;
 import com.stefanini.resource.PessoaResource;
 import com.stefanini.resource.PessoaUploadImagemResource;
 
+/*@ApplicationPath("api")
+public class ApplicationResource extends Application{
+
+}*/
 @ApplicationPath("api")
 public class ApplicationResource extends Application {
 	public Set<Class<?>> getClasses() {
@@ -23,4 +27,5 @@ public class ApplicationResource extends Application {
 		s.add(PessoaUploadImagemResource.class);
 		return s;
 	}
+	
 }

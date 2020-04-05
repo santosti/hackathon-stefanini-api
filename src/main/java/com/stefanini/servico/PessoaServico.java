@@ -1,22 +1,14 @@
 package com.stefanini.servico;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
@@ -51,7 +43,7 @@ public class PessoaServico implements Serializable {
 	// Salvar os dados de uma Pessoa
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Pessoa salvar(@Valid Pessoa pessoa) {
-
+		//Salvar endereço unico
 		Optional<Endereco> endereco = pessoa.getEnderecos().stream().findFirst();
 
 		// Array para adicionar mais de um endereço a uma pessoa
@@ -65,10 +57,7 @@ public class PessoaServico implements Serializable {
 		 */
 
 		if (endereco.isPresent()) {
-
 			pessoa.getEnderecos().clear();
-
-			// pessoa.setImagem(decodeToImage(pessoa.getImagem(), pessoa.getEmail()));
 
 			Pessoa salvarPessoa = dao.salvar(pessoa);
 			Long id = salvarPessoa.getId();
@@ -79,7 +68,6 @@ public class PessoaServico implements Serializable {
 			return pessoa;
 		}
 		return dao.salvar(pessoa);
-
 	}
 
 	// Validando se existe pessoa com email
@@ -112,10 +100,8 @@ public class PessoaServico implements Serializable {
 	}
 
 	// Buscar uma lista de Pessoa
-	public Optional<List<Pessoa>> getList() {
-		return dao.getList();
-	}
-
+	// public Optional<List<Pessoa>> getList() { return dao.getList(); }
+	 
 	// Buscar uma Pessoa pelo ID
 	public Optional<Pessoa> encontrar(Long id) {
 		return dao.encontrar(id);
@@ -135,35 +121,4 @@ public class PessoaServico implements Serializable {
 		pessoa.setImagem(caminhoImagem);
 		return dao.atualizar(pessoa);
 	}
-
-	/*
-	 * @TransactionAttribute(TransactionAttributeType.REQUIRED) public
-	 * FileInputStream urlImg(String localImg) { String localImg1 = "";
-	 * 
-	 * FileInputStream file = null;
-	 * 
-	 * try { file = new FileInputStream(localImg1);
-	 * 
-	 * } catch (FileNotFoundException e) { e.printStackTrace(); } return file; }
-	 * 
-	 * // Decodifica a imagem public String decodeToImage(String imagemString,
-	 * String email) {
-	 * 
-	 * String url = "C:\\projetos-java\\hackaton-stefanini-api\\src\\imagem\\foto" +
-	 * email + ".jpg";
-	 * 
-	 * imagemString = imagemString.split(",")[1]; BufferedImage imagem = null;
-	 * 
-	 * byte[] imageByte;
-	 * 
-	 * try { imageByte = Base64.getDecoder().decode(imagemString.getBytes());
-	 * ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-	 * 
-	 * imagem = ImageIO.read(bis); bis.close();
-	 * 
-	 * ImageIO.write(imagem, "JPG", new File(url));
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } return url; }
-	 */
-
 }

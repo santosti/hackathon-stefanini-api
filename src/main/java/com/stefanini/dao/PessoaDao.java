@@ -19,6 +19,7 @@ public class PessoaDao extends GenericDao<Pessoa, Long> {
 	public PessoaDao() {
 		super(Pessoa.class);
 	}
+
 	/**
 	 * Efetuando busca de Pessoa por email
 	 * 
@@ -30,18 +31,16 @@ public class PessoaDao extends GenericDao<Pessoa, Long> {
 		TypedQuery<Pessoa> q2 = entityManager.createQuery(" select p from Pessoa p where p.email=:email", Pessoa.class);
 		q2.setParameter("email", email);
 
-		return q2.getResultStream().findFirst();
+		return q2.getResultList().stream().findFirst();
 	}
 
 	// Efetuando query de paginas
 	public List<Pessoa> listarPessoasPaginado(Integer pageNumber, Integer pageSize) {
-		
-		TypedQuery<Pessoa> q = entityManager.createQuery("from Pessoa pes join fetch pes.enderecos join fetch pes.perfils", Pessoa.class);
-		
-		q.setFirstResult((pageNumber - 1) * pageSize);
-		q.setMaxResults(pageSize);
-		
-		return q.getResultList();
+		TypedQuery<Pessoa> query = entityManager
+				.createQuery("FROM Pessoa p JOIN FETCH p.enderecos JOIN FETCH p.perfils", Pessoa.class);
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
 	}
 
 	// Efetuando busca de Pessoa cheia

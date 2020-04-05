@@ -21,7 +21,6 @@ import javax.ws.rs.core.UriInfo;
 
 import com.stefanini.dto.ErroDto;
 import com.stefanini.exception.NegocioException;
-import com.stefanini.model.Perfil;
 import com.stefanini.model.Pessoa;
 import com.stefanini.servico.PerfilServico;
 import com.stefanini.servico.PessoaServico;
@@ -53,7 +52,8 @@ public class PessoaResource {
 
 	@GET
 	@Path("paginado")
-	public Response listarPessoasPaginado(@QueryParam("pageNumber") Integer pageNumber, @QueryParam("pageSize") Integer pageSize) {
+	public Response obterPessoasPaginado(@QueryParam("pageNumber") Integer pageNumber,
+			@QueryParam("pageSize") Integer pageSize) {
 		return Response.ok(pessoaServico.listarPessoasPaginado(pageNumber, pageSize)).build();
 	}
 
@@ -64,9 +64,9 @@ public class PessoaResource {
 	/*
 	 * @GET public Response obterPessoas() { log.info("Obtendo lista de pessoas");
 	 * MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-	 * Optional<List<Pessoa>> listPessoa = pessoaServico.getList(); 
-	 * return listPessoa.map(pessoas -> Response.ok(pessoas).build()) .orElseGet(() -> Response.status(Status.NOT_FOUND).build()); 
-	 * }
+	 * Optional<List<Pessoa>> listPessoa = pessoaServico.getList(); return
+	 * listPessoa.map(pessoas -> Response.ok(pessoas).build()) .orElseGet(() ->
+	 * Response.status(Status.NOT_FOUND).build()); }
 	 */
 
 	/**
@@ -77,9 +77,10 @@ public class PessoaResource {
 	@POST
 	public Response adicionarPessoa(@Valid Pessoa pessoa) {
 
-		if (pessoa.getPerfils() == null) {
-			Perfil perfil = (Perfil) perfilServico.getList().get();
-		}
+		/*
+		 * if (pessoa.getPerfils() == null) { Perfil perfil = (Perfil)
+		 * perfilServico.getList().get(); }
+		 */
 
 		if (pessoaServico.validarPessoa(pessoa)) {
 
@@ -133,16 +134,8 @@ public class PessoaResource {
 	@GET
 	@Path("{id}")
 	public Response obterPessoa(@PathParam("id") Long id) {
-		return pessoaServico.encontrar(id).map(pessoas -> Response.ok(pessoas).build()).orElseGet(() -> Response.status(Status.NOT_FOUND).build());
+		return pessoaServico.encontrar(id).map(pessoas -> Response.ok(pessoas).build())
+				.orElseGet(() -> Response.status(Status.NOT_FOUND).build());
 	}
 
-	/*
-	 * @GET
-	 * 
-	 * @Path("imagem/{localImg}")
-	 * 
-	 * @Produces("imagem/jpg") public Response obterImagem(@PathParam("localImg")
-	 * String localImg) { return
-	 * Response.ok(pessoaServico.urlImg(localImg)).build(); }
-	 */
 }

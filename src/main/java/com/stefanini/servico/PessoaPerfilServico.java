@@ -1,18 +1,17 @@
 package com.stefanini.servico;
 
-import com.stefanini.dao.PerfilDao;
-import com.stefanini.dao.PessoaPerfilDao;
-import com.stefanini.model.Perfil;
-import com.stefanini.model.PessoaPerfil;
-import com.stefanini.resource.PessoaResource;
-
-import javax.ejb.*;
-import javax.inject.Inject;
-import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
+
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
+
+import com.stefanini.dao.PessoaPerfilDao;
+import com.stefanini.model.PessoaPerfil;
 
 /**
  * 
@@ -25,8 +24,6 @@ import java.util.stream.Stream;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class PessoaPerfilServico implements Serializable {
-
-
 	/**
 	 * 
 	 */
@@ -36,8 +33,7 @@ public class PessoaPerfilServico implements Serializable {
 	private PessoaPerfilDao dao;
 
 	public Stream<PessoaPerfil> buscarPessoaPerfil(Long idPessoa, Long idPerfil) {
-		return dao.buscarPessoaPerfil(idPessoa,idPerfil);
+		return dao.buscarPessoaPerfil(idPessoa, idPerfil);
 	}
 
-
-	}
+}

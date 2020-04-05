@@ -11,6 +11,7 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,6 @@ import java.util.Optional;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class PerfilServico implements Serializable {
-
-
 	/**
 	 * 
 	 */
@@ -45,8 +44,7 @@ public class PerfilServico implements Serializable {
 	public Perfil salvar(@Valid Perfil perfil) {
 		return dao.salvar(perfil);
 	}
-
-
+	
 	/**
 	 * Validando se existe pessoa com email
 	 */
@@ -60,6 +58,8 @@ public class PerfilServico implements Serializable {
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public Perfil atualizar(@Valid Perfil entity) {
+		entity.setDataHoraInclusao(dao.encontrar(entity.getId()).get().getDataHoraInclusao());
+		entity.setDataHoraAlteracao(LocalDateTime.now());
 		return dao.atualizar(entity);
 	}
 

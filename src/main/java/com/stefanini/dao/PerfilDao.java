@@ -30,3 +30,4 @@ public class PerfilDao extends GenericDao<Perfil, Long> {
 	}
 
 }
+

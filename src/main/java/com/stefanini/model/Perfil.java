@@ -42,6 +42,12 @@ public class Perfil implements Serializable {
 //     */
 //    @ManyToMany(mappedBy = "perfils")
 //    private Set<Pessoa> pessoas;
+	
+	@PrePersist
+	public void prePersist() {
+		this.dataHoraAlteracao = LocalDateTime.now();
+		this.dataHoraInclusao = LocalDateTime.now();
+	}
 
 	public Perfil() {
 		dataHoraInclusao = LocalDateTime.now();
@@ -51,7 +57,8 @@ public class Perfil implements Serializable {
 		this.id = id;
 	}
 
-	public Perfil(@NotNull String nome, @NotNull String descricao, @NotNull LocalDateTime dataHoraInclusao, LocalDateTime dataHoraAlteracao) {
+	public Perfil(@NotNull String nome, @NotNull String descricao, @NotNull LocalDateTime dataHoraInclusao,
+			LocalDateTime dataHoraAlteracao) {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.dataHoraInclusao = dataHoraInclusao;
